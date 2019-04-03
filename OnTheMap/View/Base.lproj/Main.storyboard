@@ -61,6 +61,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7RB-IK-NBL">
                                                 <rect key="frame" x="187" y="0.0" width="54" height="30"/>
                                                 <state key="normal" title="Sign Up"/>
+                                                <connections>
+                                                    <action selector="signUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pJr-v1-hCa"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -84,6 +87,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="IkY-PC-cec" id="zpG-rG-GAT"/>
                         <outlet property="loginActivityIndicator" destination="T18-kA-bWY" id="JiA-zG-Tza"/>
+                        <outlet property="loginButton" destination="m4F-CD-mvq" id="Vw4-Ji-DbI"/>
                         <outlet property="passwordTextField" destination="1S6-51-4zb" id="ts7-01-5CV"/>
                         <segue destination="8AH-7v-bCz" kind="show" identifier="NavController" id="To3-M1-oW3"/>
                     </connections>
