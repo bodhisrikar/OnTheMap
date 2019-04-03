@@ -40,6 +40,13 @@ extension StudentLocationTableViewController: UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let url = URL(string: StudentLocations.allStudentsLocations[indexPath.row].mediaURL)
+        if let url = url {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     @objc func updateStudentLocations() {
         UdacityClient.getAllStudentsLocations(completionHandler: handleLocationResponse(response:error:))
     }
