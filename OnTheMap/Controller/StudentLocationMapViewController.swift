@@ -25,7 +25,7 @@ class StudentLocationMapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.mapView.addAnnotations(annotations)
+        mapView.addAnnotations(annotations)
         
         locationNofication.addObserver(self, selector: #selector(updateStudentLocations), name: Notification.Name("RefreshStudentsLocations"), object: nil)
     }

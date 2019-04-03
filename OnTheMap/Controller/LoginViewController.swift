@@ -36,10 +36,10 @@ class LoginViewController: UIViewController {
     }
     
     private func handleSessionResponse(success: Bool, error: Error?) {
-        self.loginActivityIndicator.stopAnimating()
+        loginActivityIndicator.stopAnimating()
         configureUIDuringLogin(isEnabled: true)
         if success {
-            self.performSegue(withIdentifier: "NavController", sender: nil)
+            performSegue(withIdentifier: "NavController", sender: nil)
         } else {
             showLoginFailure(message: error?.localizedDescription ?? "")
         }

@@ -14,6 +14,7 @@ class SubmitLocationController: UIViewController {
     var placeMark: CLPlacemark!
     var placeURL: String!
     @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         navigationController?.navigationItem.title = "Submit Location"
     }

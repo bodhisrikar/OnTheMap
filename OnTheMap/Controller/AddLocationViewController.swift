@@ -16,7 +16,7 @@ class AddLocationViewController: UIViewController {
     var placeMark: CLPlacemark!
     
     @IBAction func cancel(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func submitLocation(_ sender: Any) {
