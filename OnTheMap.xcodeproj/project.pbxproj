@@ -21,6 +21,7 @@
 		227BA8B3224D9DB400742CA3 /* SubmitLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227BA8B2224D9DB400742CA3 /* SubmitLocationController.swift */; };
 		228B4580224CEB28004EE0A3 /* PostStudentLocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B457F224CEB28004EE0A3 /* PostStudentLocationRequest.swift */; };
 		228B4582224CEECF004EE0A3 /* PostStudentLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B4581224CEECF004EE0A3 /* PostStudentLocationResponse.swift */; };
+		229583DB22545363006BD8C7 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229583DA22545363006BD8C7 /* APIKeys.swift */; };
 		229C2A2D224A417200DF2AED /* AccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229C2A2C224A417200DF2AED /* AccountResponse.swift */; };
 		229C2A2F224A41C900DF2AED /* CreateSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229C2A2E224A41C900DF2AED /* CreateSessionResponse.swift */; };
 		22B4810D224AF7030049B7D4 /* LoginErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4810C224AF7030049B7D4 /* LoginErrorResponse.swift */; };
@@ -47,6 +48,7 @@
 		227BA8B2224D9DB400742CA3 /* SubmitLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitLocationController.swift; sourceTree = "<group>"; };
 		228B457F224CEB28004EE0A3 /* PostStudentLocationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentLocationRequest.swift; sourceTree = "<group>"; };
 		228B4581224CEECF004EE0A3 /* PostStudentLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentLocationResponse.swift; sourceTree = "<group>"; };
+		229583DA22545363006BD8C7 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		229C2A2C224A417200DF2AED /* AccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountResponse.swift; sourceTree = "<group>"; };
 		229C2A2E224A41C900DF2AED /* CreateSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionResponse.swift; sourceTree = "<group>"; };
 		22B4810C224AF7030049B7D4 /* LoginErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginErrorResponse.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		226B494E22498CB800744951 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				229583D922545347006BD8C7 /* API Keys */,
 				226B496322499E8F00744951 /* Controller */,
 				226B496222499E8500744951 /* View */,
 				226B496122499E7F00744951 /* Model */,
@@ -150,6 +153,14 @@
 				228B4581224CEECF004EE0A3 /* PostStudentLocationResponse.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		229583D922545347006BD8C7 /* API Keys */ = {
+			isa = PBXGroup;
+			children = (
+				229583DA22545363006BD8C7 /* APIKeys.swift */,
+			);
+			path = "API Keys";
 			sourceTree = "<group>";
 		};
 		22CF1B7E22543570000ADC82 /* Data */ = {
@@ -241,6 +252,7 @@
 				22C26C90224B1B00005B10B8 /* AllStudentsLocationDetailsResponse.swift in Sources */,
 				226B495222498CB800744951 /* LoginViewController.swift in Sources */,
 				226B495022498CB800744951 /* AppDelegate.swift in Sources */,
+				229583DB22545363006BD8C7 /* APIKeys.swift in Sources */,
 				225A0F81224C474B0072EA77 /* AddLocationViewController.swift in Sources */,
 				229C2A2F224A41C900DF2AED /* CreateSessionResponse.swift in Sources */,
 				227BA8B3224D9DB400742CA3 /* SubmitLocationController.swift in Sources */,

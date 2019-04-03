@@ -41,13 +41,21 @@ class SubmitLocationController: UIViewController {
     
     private func handlePostStudentLocationResponse(response: PostStudentLocationResponse?, error: Error?) {
         guard let response = response else {
+            showSubmitFailure(message: error?.localizedDescription ?? "Please try again")
             return
         }
         
-        print("object id is : \(response.objectId)")
-        print("created at : \(response.createdAt)")
+        StudentLocations.allStudentsLocations.append(AllStudentsLocationDetailsResponse(createdAt: response.createdAt, firstName: "first", lastName: "last", latitude: placeMark.location?.coordinate.latitude ?? 0.0, longitude: placeMark.location?.coordinate.longitude ?? 0.0, mapString: "\(placeMark.locality!), \(placeMark.administrativeArea!)", mediaURL: placeURL, objectId: response.objectId, uniqueKey: UdacityClient.Auth.accountKey, updatedAt: "\(Calendar.current.component(.hour, from: Date()))"))
+        
+        
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    private func showSubmitFailure(message: String) {
+        let alertVC = UIAlertController(title: "Submit Failed", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        show(alertVC, sender: nil)
     }
 }
 

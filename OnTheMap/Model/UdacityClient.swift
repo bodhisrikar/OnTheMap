@@ -9,17 +9,10 @@
 import Foundation
 
 class UdacityClient {
-    static let applicationId = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-    static let apiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
-    
-    private struct Auth {
+    struct Auth {
         static var sessionId: String = ""
         static var accountKey: String = ""
         static var registeredAccount: Bool = false
-    }
-    
-    private struct StudentInformation {
-        
     }
     
     enum Endpoints {
@@ -70,19 +63,13 @@ class UdacityClient {
                 return
             }
             
-            //print("data is \(data)")
             let newData = data.subdata(in: 5..<data.count)
-            //print("New data is : \(String(data: newData, encoding: .utf8) ?? "")")
             
             do {
                 let createSessionResponse = try JSONDecoder().decode(CreateSessionResponse.self, from: newData)
-                //Auth.sessionId = createSessionResponse.session.sessionId
-                Auth.sessionId = "6362255103S2a46a761f22011ad093f43af4371a9a1"
-                //Auth.accountKey = createSessionResponse.account.accountKey
-                Auth.accountKey = "699056108204"
+                Auth.sessionId = createSessionResponse.session.sessionId
+                Auth.accountKey = createSessionResponse.account.accountKey
                 Auth.registeredAccount = createSessionResponse.account.registeredAccount
-                //print("Session id: \(Auth.sessionId)")
-                //print("Account key: \(Auth.accountKey)")
                 DispatchQueue.main.async {
                     completionHandler(true, error)
                 }
@@ -104,8 +91,8 @@ class UdacityClient {
     
     class func getAllStudentsLocations(completionHandler: @escaping(AllStudentsLocationResponse?, Error?) -> Void) {
         var request = URLRequest(url: Endpoints.getAllStudentsLocations.url)
-        request.addValue(applicationId, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue(APIKeys.applicationId, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(APIKeys.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -134,8 +121,8 @@ class UdacityClient {
     class func postStudentLocation(firstName: String, lastName: String, mapString: String, mediaURL: String, latitude: Double, longitude: Double, completionHandler: @escaping(PostStudentLocationResponse?, Error?) -> Void) {
         var request = URLRequest(url: Endpoints.postStudentLocation.url)
         request.httpMethod = "POST"
-        request.addValue(applicationId, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue(APIKeys.applicationId, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(APIKeys.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let requestBody = PostStudentLocationRequest(uniqueKey: Auth.accountKey, firstName: firstName, lastName: lastName, mapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude)

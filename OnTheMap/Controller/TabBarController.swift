@@ -24,7 +24,6 @@ class TabBarController: UITabBarController {
     }
     
     private func handleDeleteSessionResponse(success: Bool, error: Error?) {
-        let loginVC = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        present(loginVC, animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }

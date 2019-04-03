@@ -15,6 +15,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loginButton: UIButton!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Setting the fields to empty text so that when user clicks on logout and comes back the entered text is still present.
+        emailTextField.text = ""
+        passwordTextField.text = ""
+    }
+    
     @IBAction func validateLogin(_ sender: Any) {
         loginActivityIndicator.startAnimating()
         configureUIDuringLogin(isEnabled: false)
@@ -27,7 +34,6 @@ class LoginViewController: UIViewController {
             UIApplication.shared.open(signUpURL, options: [:], completionHandler: nil)
         }
     }
-    
     
     private func handleSessionResponse(success: Bool, error: Error?) {
         self.loginActivityIndicator.stopAnimating()
