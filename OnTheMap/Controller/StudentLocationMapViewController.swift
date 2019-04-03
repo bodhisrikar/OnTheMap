@@ -13,19 +13,28 @@ class StudentLocationMapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    let locationNofication = NotificationCenter.default
     var annotations = [MKPointAnnotation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         navigationController?.navigationBar.isHidden = false
-        UdacityClient.getAllStudentsLocations(completionHandler: handleLocationResponse(response:error:))
+        updateStudentLocations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.mapView.addAnnotations(annotations)
+        
+        locationNofication.addObserver(self, selector: #selector(updateStudentLocations), name: Notification.Name("RefreshStudentsLocations"), object: nil)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        locationNofication.removeObserver(self)
+    }
+    
 }
 
 extension StudentLocationMapViewController: MKMapViewDelegate {
@@ -54,11 +63,14 @@ extension StudentLocationMapViewController: MKMapViewDelegate {
         }
     }
     
+    @objc func updateStudentLocations() {
+        UdacityClient.getAllStudentsLocations(completionHandler: handleLocationResponse(response:error:))
+    }
+    
     private func handleLocationResponse(response: AllStudentsLocationResponse?, error: Error?) {
         if let response = response {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.allStudentsLocations = response.results
-            let locationResults = appDelegate.allStudentsLocations
+            StudentLocations.allStudentsLocations = response.results
+            let locationResults = StudentLocations.allStudentsLocations
             
             for location in locationResults {
                 let resultLatitude = CLLocationDegrees(location.latitude)

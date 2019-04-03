@@ -161,6 +161,9 @@
                         <viewLayoutGuide key="safeArea" id="NJo-Mp-H6m"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="icon_listview-deselected" id="o7e-1w-t2h"/>
+                    <connections>
+                        <outlet property="studentLocationTableView" destination="xtu-M8-Cdw" id="MbI-e0-JZ5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bHG-mf-8gJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

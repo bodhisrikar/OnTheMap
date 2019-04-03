@@ -15,12 +15,6 @@ class AddLocationViewController: UIViewController {
     @IBOutlet weak var linkTextField: UITextField!
     var placeMark: CLPlacemark!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-
     @IBAction func cancel(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
