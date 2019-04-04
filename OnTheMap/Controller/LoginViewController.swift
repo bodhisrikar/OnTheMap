@@ -39,6 +39,7 @@ class LoginViewController: UIViewController {
         loginActivityIndicator.stopAnimating()
         configureUIDuringLogin(isEnabled: true)
         if success {
+            UdacityClient.getStudentDetails()
             performSegue(withIdentifier: "NavController", sender: nil)
         } else {
             showLoginFailure(message: error?.localizedDescription ?? "")

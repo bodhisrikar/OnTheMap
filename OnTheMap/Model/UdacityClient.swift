@@ -17,13 +17,15 @@ class UdacityClient {
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1/session"
-        static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100"
+        static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updated"
         static let studentLocation = "https://parse.udacity.com/parse/classes/StudentLocation"
+        static let studentName = "https://onthemap-api.udacity.com/v1/users/\(Auth.sessionId)"
         
         case createSessionId
         case deleteSessionId
         case getAllStudentsLocations
         case postStudentLocation
+        case getStudentName
         
         var stringValue: String {
             switch self {
@@ -35,6 +37,8 @@ class UdacityClient {
                 return Endpoints.allStudentsLocations
             case .postStudentLocation:
                 return Endpoints.studentLocation
+            case .getStudentName:
+                return Endpoints.studentName
             }
         }
         
@@ -146,6 +150,30 @@ class UdacityClient {
                 DispatchQueue.main.async {
                     completionHandler(nil, error)
                 }
+            }
+        }
+        task.resume()
+    }
+    
+    class func getStudentDetails() {
+        var request = URLRequest(url: Endpoints.getStudentName.url)
+        request.addValue(APIKeys.applicationId, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(APIKeys.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data else {
+                return
+            }
+            
+            //print("Data is : \(String(data: data, encoding: .utf8)!)")
+            let newData = data.subdata(in: 5..<data.count)
+            //print("New Data is : \(String(data: newData, encoding: .utf8)!)")
+            do {
+                let json = try JSONSerialization.jsonObject(with: newData, options: .allowFragments) as! [String: Any]
+                StudentDetails.firstName = "\(json["first_name"])"
+                StudentDetails.lastName = "\(json["last_name"])"
+            } catch let error {
+                print("Error")
             }
         }
         task.resume()

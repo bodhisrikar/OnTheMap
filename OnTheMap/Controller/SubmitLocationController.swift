@@ -37,7 +37,7 @@ class SubmitLocationController: UIViewController {
     }
     
     @IBAction func postStudentLocation(_ sender: Any) {
-        UdacityClient.postStudentLocation(firstName: "first", lastName: "last", mapString: "\(placeMark.locality!), \(placeMark.administrativeArea!)", mediaURL: placeURL, latitude: placeMark.location?.coordinate.latitude ?? 0.0, longitude: placeMark.location?.coordinate.longitude ?? 0.0, completionHandler: handlePostStudentLocationResponse(response:error:))
+        UdacityClient.postStudentLocation(firstName: StudentDetails.firstName, lastName: StudentDetails.lastName, mapString: "\(placeMark.locality!), \(placeMark.administrativeArea!)", mediaURL: placeURL, latitude: placeMark.location?.coordinate.latitude ?? 0.0, longitude: placeMark.location?.coordinate.longitude ?? 0.0, completionHandler: handlePostStudentLocationResponse(response:error:))
     }
     
     private func handlePostStudentLocationResponse(response: PostStudentLocationResponse?, error: Error?) {
@@ -46,9 +46,7 @@ class SubmitLocationController: UIViewController {
             return
         }
         
-        StudentLocations.allStudentsLocations.append(AllStudentsLocationDetailsResponse(createdAt: response.createdAt, firstName: "first", lastName: "last", latitude: placeMark.location?.coordinate.latitude ?? 0.0, longitude: placeMark.location?.coordinate.longitude ?? 0.0, mapString: "\(placeMark.locality!), \(placeMark.administrativeArea!)", mediaURL: placeURL, objectId: response.objectId, uniqueKey: UdacityClient.Auth.accountKey, updatedAt: "\(Calendar.current.component(.hour, from: Date()))"))
-        
-        
+        StudentLocations.allStudentsLocations.append(AllStudentsLocationDetailsResponse(createdAt: response.createdAt, firstName: StudentDetails.firstName, lastName: StudentDetails.lastName, latitude: placeMark.location?.coordinate.latitude ?? 0.0, longitude: placeMark.location?.coordinate.longitude ?? 0.0, mapString: "\(placeMark.locality!), \(placeMark.administrativeArea!)", mediaURL: placeURL, objectId: response.objectId, uniqueKey: UdacityClient.Auth.accountKey, updatedAt: "\(Calendar.current.component(.hour, from: Date()))"))
         
         dismiss(animated: true, completion: nil)
     }
