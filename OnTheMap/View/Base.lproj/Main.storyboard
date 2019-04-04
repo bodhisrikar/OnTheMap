@@ -257,11 +257,17 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="lWv-9K-txh">
+                                <rect key="frame" x="177.5" y="560" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aZD-j7-zxL" firstAttribute="centerY" secondItem="uTQ-0G-6Tu" secondAttribute="centerY" id="0wv-9L-En3"/>
                             <constraint firstItem="aZD-j7-zxL" firstAttribute="centerX" secondItem="uTQ-0G-6Tu" secondAttribute="centerX" id="Qxm-mA-BAH"/>
+                            <constraint firstItem="lWv-9K-txh" firstAttribute="centerX" secondItem="uTQ-0G-6Tu" secondAttribute="centerX" id="eku-Fi-yCE"/>
+                            <constraint firstItem="lWv-9K-txh" firstAttribute="top" secondItem="ltj-BK-oUc" secondAttribute="bottom" constant="80" id="kKl-F7-OaT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uTQ-0G-6Tu"/>
                     </view>
@@ -273,6 +279,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="findLocationActivityIndicator" destination="lWv-9K-txh" id="LPh-XS-uht"/>
+                        <outlet property="findLocationButton" destination="FYB-ce-cIr" id="sF9-BI-pVm"/>
                         <outlet property="linkTextField" destination="xLR-qs-AzF" id="oDC-22-250"/>
                         <outlet property="locationTextField" destination="2Mj-KW-xfj" id="HBJ-9g-ceJ"/>
                         <segue destination="t5Z-ix-8Dd" kind="show" identifier="SubmitLocationController" id="foc-1r-ilf"/>

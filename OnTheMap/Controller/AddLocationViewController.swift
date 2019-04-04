@@ -13,6 +13,9 @@ class AddLocationViewController: UIViewController {
 
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var linkTextField: UITextField!
+    @IBOutlet weak var findLocationButton: UIButton!
+    @IBOutlet weak var findLocationActivityIndicator: UIActivityIndicatorView!
+    
     var placeMark: CLPlacemark!
     
     @IBAction func cancel(_ sender: Any) {
@@ -30,8 +33,18 @@ class AddLocationViewController: UIViewController {
             return
         }
         
+        findLocationActivityIndicator.startAnimating()
+        configureUI(isEnabled: false)
         let validateGeocode = CLGeocoder()
         validateGeocode.geocodeAddressString(locationTextField.text!, completionHandler: handleGeocodeResponse(placeMark:error:))
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let placeMark = placeMark {
+            let submitLocationVC = segue.destination as! SubmitLocationController
+            submitLocationVC.placeMark = placeMark
+            submitLocationVC.placeURL = linkTextField.text ?? "www.google.com"
+        }
     }
     
     private func handleEmptyLink(errorMessage: String) {
@@ -41,18 +54,26 @@ class AddLocationViewController: UIViewController {
     }
     
     private func handleGeocodeResponse(placeMark: [CLPlacemark]?, error: Error?) {
+        findLocationActivityIndicator.stopAnimating()
+        configureUI(isEnabled: true)
         if let placeMark = placeMark {
             self.placeMark = placeMark[0]
             performSegue(withIdentifier: "SubmitLocationController", sender: nil)
+        } else {
+            showFindLocationFailure(message: error?.localizedDescription ?? "Enter a valid location")
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let placeMark = placeMark {
-            let submitLocationVC = segue.destination as! SubmitLocationController
-            submitLocationVC.placeMark = placeMark
-            submitLocationVC.placeURL = linkTextField.text ?? "www.google.com"
-        }
+    private func configureUI(isEnabled: Bool) {
+        locationTextField.isEnabled = isEnabled
+        linkTextField.isEnabled = isEnabled
+        findLocationButton.isEnabled = isEnabled
+    }
+    
+    private func showFindLocationFailure(message: String) {
+        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        show(alertVC, sender: nil)
     }
 
 }

@@ -17,7 +17,7 @@ class UdacityClient {
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1/session"
-        static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updated"
+        static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100"
         static let studentLocation = "https://parse.udacity.com/parse/classes/StudentLocation"
         static let studentName = "https://onthemap-api.udacity.com/v1/users/\(Auth.sessionId)"
         
