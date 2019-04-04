@@ -16,7 +16,24 @@ class AddLocationViewController: UIViewController {
     @IBOutlet weak var findLocationButton: UIButton!
     @IBOutlet weak var findLocationActivityIndicator: UIActivityIndicatorView!
     
+    let customTextFieldDelegate = CustomTextFieldDelegate()
     var placeMark: CLPlacemark!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        locationTextField.delegate = customTextFieldDelegate
+        linkTextField.delegate = customTextFieldDelegate
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeToKeyboardNotifications()
+    }
     
     @IBAction func cancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -74,6 +91,33 @@ class AddLocationViewController: UIViewController {
         let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         show(alertVC, sender: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if linkTextField.isFirstResponder {
+            view.frame.origin.y = -getKeyboardHeight(notification)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        view.frame.origin.y = 0
+    }
+    
+    private func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func unsubscribeToKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userinfo = notification.userInfo
+        let keyboardSize = userinfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height / 2
     }
 
 }

@@ -32,7 +32,8 @@ class SubmitLocationController: UIViewController {
             let administrativeArea = placeMark.administrativeArea
             let country = placeMark.country
             annotation.title = "\(locality!), \(administrativeArea!), \(country!)"
-            self.mapView.addAnnotation(annotation)
+            mapView.setRegion(MKCoordinateRegion(center: resultCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.0275, longitudeDelta: 0.0275)), animated: true)
+            mapView.addAnnotation(annotation)
         }
     }
     

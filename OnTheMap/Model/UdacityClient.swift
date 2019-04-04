@@ -17,7 +17,7 @@ class UdacityClient {
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1/session"
-        static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100"
+        static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updated"
         static let studentLocation = "https://parse.udacity.com/parse/classes/StudentLocation"
         static let studentName = "https://onthemap-api.udacity.com/v1/users/\(Auth.sessionId)"
         
@@ -53,11 +53,7 @@ class UdacityClient {
         createSessionRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         createSessionRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        //print("Username: \(username), Password: \(password)")
-        //let requestBody = SessionRequest(udacity: [username:password])
-        //createSessionRequest.httpBody = try! JSONEncoder().encode(requestBody)
         createSessionRequest.httpBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".data(using: .utf8)
-        //print("Request is : \(createSessionRequest)")
         
         let task = URLSession.shared.dataTask(with: createSessionRequest) { (data, response, error) in
             guard let data = data else {
@@ -106,7 +102,6 @@ class UdacityClient {
                 return
             }
             
-            //print(String(data: data, encoding: .utf8)!)
             let decoder = JSONDecoder()
             do {
                 let allLocationsResponse = try decoder.decode(AllStudentsLocationResponse.self, from: data)
@@ -198,7 +193,6 @@ class UdacityClient {
             }
             
             let newData = data.subdata(in: 5..<data.count) /* subset response data! */
-            //print(String(data: newData!, encoding: .utf8)!)
             
             do {
                 let _ = try JSONDecoder().decode(SessionResponse.self, from: newData)
