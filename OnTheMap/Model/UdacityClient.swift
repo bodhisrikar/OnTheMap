@@ -165,9 +165,7 @@ class UdacityClient {
                 return
             }
             
-            //print("Data is : \(String(data: data, encoding: .utf8)!)")
             let newData = data.subdata(in: 5..<data.count)
-            //print("New Data is : \(String(data: newData, encoding: .utf8)!)")
             do {
                 let json = try JSONSerialization.jsonObject(with: newData, options: .allowFragments) as! [String: Any]
                 StudentDetails.firstName = "\(json["first_name"])"

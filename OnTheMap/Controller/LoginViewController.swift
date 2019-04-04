@@ -15,11 +15,25 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loginButton: UIButton!
     
+    let customTextFieldDelegate = CustomTextFieldDelegate()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        emailTextField.delegate = customTextFieldDelegate
+        passwordTextField.delegate = customTextFieldDelegate
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Setting the fields to empty text so that when user clicks on logout and comes back the entered text is still present.
         emailTextField.text = ""
         passwordTextField.text = ""
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     @IBAction func validateLogin(_ sender: Any) {
@@ -33,6 +47,33 @@ class LoginViewController: UIViewController {
         if let signUpURL = signUpURL {
             UIApplication.shared.open(signUpURL, options: [:], completionHandler: nil)
         }
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if passwordTextField.isFirstResponder {
+            view.frame.origin.y = -getKeyboardHeight(notification)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        view.frame.origin.y = 0
+    }
+    
+    private func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func unsubscribeToKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userinfo = notification.userInfo
+        let keyboardSize = userinfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height / 2
     }
     
     private func handleSessionResponse(success: Bool, error: Error?) {
