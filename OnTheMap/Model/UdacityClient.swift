@@ -20,12 +20,16 @@ class UdacityClient {
         static let allStudentsLocations = "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updated"
         static let studentLocation = "https://parse.udacity.com/parse/classes/StudentLocation"
         static let studentName = "https://onthemap-api.udacity.com/v1/users/\(Auth.sessionId)"
+        static let modifyStudentLocation = "https://parse.udacity.com/parse/classes/StudentLocation/"
+        static let currentStudentLocation = "https://parse.udacity.com/parse/classes/StudentLocation"
         
         case createSessionId
         case deleteSessionId
         case getAllStudentsLocations
         case postStudentLocation
         case getStudentName
+        case putStudentLocation(String)
+        case getStudentLocation
         
         var stringValue: String {
             switch self {
@@ -39,6 +43,10 @@ class UdacityClient {
                 return Endpoints.studentLocation
             case .getStudentName:
                 return Endpoints.studentName
+            case .putStudentLocation(let objectId):
+                return Endpoints.modifyStudentLocation + "\(objectId)"
+            case .getStudentLocation:
+                return Endpoints.currentStudentLocation
             }
         }
         
@@ -172,6 +180,24 @@ class UdacityClient {
         task.resume()
     }
     
+    class func modifyExistingStudentLocation(objectId: String, firstName: String, lastName: String, mapString: String, mediaURL: String, latitude: Double, longitude: Double, completionHandler: @escaping(Bool, Error?) -> Void) {
+        var request = URLRequest(url: Endpoints.putStudentLocation(objectId).url)
+        request.httpMethod = "PUT"
+        request.addValue(APIKeys.applicationId, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(APIKeys.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let requestBody = PostStudentLocationRequest(uniqueKey: Auth.accountKey, firstName: firstName, lastName: lastName, mapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude)
+        request.httpBody = try! JSONEncoder().encode(requestBody)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                return
+            }
+            print(String(data: data!, encoding: .utf8)!)
+        }
+    }
+    
     class func deleteSessionId(completionHandler: @escaping(Bool, Error?) -> Void) {
         var deleteSessionRequest = URLRequest(url: Endpoints.deleteSessionId.url)
         deleteSessionRequest.httpMethod = "DELETE"
@@ -193,7 +219,7 @@ class UdacityClient {
             }
             
             let newData = data.subdata(in: 5..<data.count) /* subset response data! */
-            
+
             do {
                 let _ = try JSONDecoder().decode(SessionResponse.self, from: newData)
                 Auth.sessionId = ""
